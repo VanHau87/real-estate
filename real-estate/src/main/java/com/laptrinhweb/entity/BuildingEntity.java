@@ -1,10 +1,21 @@
-package com.laptrinhweb.dto;
+package com.laptrinhweb.entity;
 
-public class NewsDTO {
+import com.laptrinhweb.annotation.Column;
+import com.laptrinhweb.annotation.Entity;
+import com.laptrinhweb.annotation.Table;
+
+@Entity
+@Table(name = "news")
+public class BuildingEntity {
+	@Column(name = "title")
 	private String title;
-	private String content;
+	@Column(name = "thumbnail")
 	private String thumbnail;
+	@Column(name = "shortdescription")
 	private String shortDescription;
+	@Column(name = "content")
+	private String content;
+	@Column(name = "categoryid")
 	private Long categoryId;
 	
 	public String getTitle() {
@@ -12,12 +23,6 @@ public class NewsDTO {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
 	}
 	public String getThumbnail() {
 		return thumbnail;
@@ -30,6 +35,12 @@ public class NewsDTO {
 	}
 	public void setShortDescription(String shortDescription) {
 		this.shortDescription = shortDescription;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public Long getCategoryId() {
 		return categoryId;
