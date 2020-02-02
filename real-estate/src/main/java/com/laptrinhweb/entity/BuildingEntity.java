@@ -28,7 +28,7 @@ public class BuildingEntity {
 	private Integer numberOfBasement;
 	
 	@Column(name = "floor_area")
-	private Integer floorarea;
+	private Integer floorArea;
 	
 	@Column(name = "direction")
 	private String direction;
@@ -140,12 +140,12 @@ public class BuildingEntity {
 		this.numberOfBasement = numberOfBasement;
 	}
 
-	public Integer getFloorarea() {
-		return floorarea;
+	public Integer getFloorArea() {
+		return floorArea;
 	}
 
-	public void setFloorarea(Integer floorarea) {
-		this.floorarea = floorarea;
+	public void setFloorArea(Integer floorArea) {
+		this.floorArea = floorArea;
 	}
 
 	public String getDirection() {

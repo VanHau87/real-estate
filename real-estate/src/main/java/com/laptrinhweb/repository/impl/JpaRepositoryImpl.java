@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class JpaRepositoryImpl<T> implements JpaRepository<T> {
 		System.out.println(zClass);
 	}	
 	@Override
-	public List<T> findAll() {
+	public List<T> findAll(Object ...where) {
 		// tạo connection
 		Connection connection = EntityManagerFactory.getConnection();
 		// tạo preparestatement
@@ -50,8 +51,12 @@ public class JpaRepositoryImpl<T> implements JpaRepository<T> {
 					//lấy table
 					tableName = table.name();//=>lấy tên của table
 				}
-				String sql = "select * from " + tableName + "";
-				statement = connection.prepareStatement(sql);
+				StringBuilder sql = new StringBuilder("select * from ");
+				sql.append(tableName).append(" ");
+				if (where != null && where.length == 1) {
+					sql.append(where[0]);
+				}
+				statement = connection.prepareStatement(sql.toString());
 				resultSet = statement.executeQuery();
 				return results.mapRow(resultSet, this.zClass);
 			} catch (SQLException e) {
@@ -75,7 +80,7 @@ public class JpaRepositoryImpl<T> implements JpaRepository<T> {
 				}
 			}
 		}
-		return null;
+		return new ArrayList<>();
 	}
 	@Override
 	public void save(String sql, Object... objects) {
@@ -179,6 +184,47 @@ public class JpaRepositoryImpl<T> implements JpaRepository<T> {
 		}
 		String sql = "INSERT INTO " + tableName + " (" + fieldSql.toString() + ") VALUES (" + paramSql +")";
 		return sql;
+	}
+	@Override
+	public List<T> findAll(String sql, Object... where) {
+		Connection connection = EntityManagerFactory.getConnection();
+		Statement statement = null;
+		ResultSet resultSet = null;
+		ResultSetMapper<T> results = new ResultSetMapper<T>();
+		if (connection != null) {// kiểm tra connection có tồn tại không
+			try {
+				
+				StringBuilder buildSQL = new StringBuilder(sql);
+				if (where != null && where.length == 1) {
+					buildSQL.append(where[0]);
+				}
+				//statement = connection.prepareStatement(sql.toString());
+				statement = connection.createStatement();
+				//resultSet = statement.executeQuery();
+				resultSet = statement.executeQuery(buildSQL.toString());
+				return results.mapRow(resultSet, this.zClass);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return new ArrayList<T>();
+			} finally {
+				try {
+					if (resultSet != null) {
+						resultSet.close();
+					}
+					if (statement != null) {
+						statement.close();
+					}
+					if (connection != null) {
+						connection.close();
+					}
+
+				} catch (SQLException e2) {
+					System.out.println(e2.getMessage());
+					return new ArrayList<T>();
+				}
+			}
+		}
+		return new ArrayList<>();
 	}
 
 }

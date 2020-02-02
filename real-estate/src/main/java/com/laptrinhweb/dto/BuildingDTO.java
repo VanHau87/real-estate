@@ -9,7 +9,7 @@ public class BuildingDTO {
 	private String street;
 	private String structure;
 	private Integer numberOfBasement;
-	private Integer floorarea;
+	private Integer floorArea;
 	private String direction;
 	private String level;
 	private String areaDescription;
@@ -81,12 +81,12 @@ public class BuildingDTO {
 		this.numberOfBasement = numberOfBasement;
 	}
 
-	public Integer getFloorarea() {
-		return floorarea;
+	public Integer getFloorArea() {
+		return floorArea;
 	}
 
-	public void setFloorarea(Integer floorarea) {
-		this.floorarea = floorarea;
+	public void setFloorArea(Integer floorArea) {
+		this.floorArea = floorArea;
 	}
 
 	public String getDirection() {
